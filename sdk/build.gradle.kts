@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("maven-publish")
 }
 
 android {
@@ -30,8 +31,36 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-}
 
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                groupId = "com.kimurashin"
+                artifactId = "sdk"
+                version = "0.1"
+
+                afterEvaluate {
+                    from(components["release"])
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "simplesdk"
+                url = uri(layout.buildDirectory.dir("repo"))
+            }
+        }
+    }
+}
 dependencies {
 
     implementation(libs.androidx.core.ktx)
