@@ -70,7 +70,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Retrofit
+    // Network
     implementation(libs.retrofit)
     implementation(libs.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging)
+    implementation(libs.moshi)
 }
