@@ -63,12 +63,10 @@ afterEvaluate {
 }
 dependencies {
 
+    // Core and View
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 
     // Network
     implementation(libs.retrofit)
@@ -76,4 +74,9 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging)
     implementation(libs.moshi)
+
+    // Test
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
