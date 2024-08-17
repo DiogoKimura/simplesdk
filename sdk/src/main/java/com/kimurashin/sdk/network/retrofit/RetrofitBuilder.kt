@@ -6,17 +6,45 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Builder for retrofit
+ *
+ * This is a DSL to simplify your retrofit build
+ *
+ * @property baseUrl
+ * @property interceptors input your list of [okhttp3.Interceptor]
+ *
+ * Example usage
+ * ```
+ * val retrofit = buildRetrofit {
+ *     baseUrl = "www.example.com"
+ *     okhttpClientBuilder {
+ *         addInterceptors(::interceptorList)
+ *     }
+ * }
+ *
+ * private fun interceptorList() = listOf(
+ *     HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
+ * )
+ * ```
+ */
 @RetrofitDsl
 class RetrofitBuilder {
     var baseUrl: String = ""
     var interceptors: List<Interceptor> = emptyList()
+
+    /**
+     * Inner builder to add Okhttp configurations
+     */
     fun okhttpClientBuilder(block: OKHttpBuilder.() -> Unit) {
         val builder = OKHttpBuilder()
         builder.block()
         interceptors = builder.interceptors
     }
 
-
+    /**
+     * Builds every previous configurations that has been made
+     */
     fun build() = Retrofit.Builder().apply {
         baseUrl(baseUrl)
         addConverterFactory(GsonConverterFactory.create())
